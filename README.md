@@ -1,9 +1,9 @@
 brainshag
 =========
 
-Visual brainfuck interpreter.
+A visual brainfuck interpreter.
 
-Compiling requires Ncurses.
+Compiling requires Ncurses, which you probably already have installed. [(if you don't)](http://ftp.gnu.org/pub/gnu/ncurses/).
 ```sh
-$ g++ brainshag.c -o brainshag -lncurses
+$ g++ brainshag.cpp -o brainshag -lncurses
 ```
