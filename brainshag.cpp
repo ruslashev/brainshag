@@ -19,6 +19,7 @@ int choice(vector<string> choices, int moveY)
 	refresh();
 
 	int ch;
+	int selectedItem;
 	while(ch = getch()) {
 		switch (ch) {
 			case KEY_DOWN:
@@ -28,15 +29,18 @@ int choice(vector<string> choices, int moveY)
 				menu_driver(menu, REQ_UP_ITEM);
 				break;
 			case 10: // enter
-				return item_index(current_item(menu)) + 1;
-				break;
+				selectedItem = item_index(current_item(menu))+1;
+				goto breakbreak;
 		}
 	}
+	breakbreak:
 
 	unpost_menu(menu);
 	free_menu(menu);
 	for (int i = 0; i < nchoices; i++)
 		free_item(items[i]);
+
+	return selectedItem;
 }
 
 int main(int argc, char *argv[])
@@ -67,6 +71,8 @@ int main(int argc, char *argv[])
 
 void simpleBF()
 {
+	clear();
+	printw("oh geez!");
 	/*char code[1000];
 	
 	clear();
