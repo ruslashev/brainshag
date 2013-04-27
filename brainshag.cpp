@@ -13,8 +13,6 @@ int main(int argc, char *argv[])
 	// printw("Welcome to Brainshag, a visual brainfuck interpreter!");
 	loadInterpreter();
 
-	getch();
-
 	endwin();
 	printf("Bye!");
 	return 0;
@@ -68,9 +66,21 @@ void loadInterpreter()
 	mvaddstr(WindowSizeY-4, 1, "Input: ");
 	mvaddstr(WindowSizeY-3, 1, "Output: ");
 
-	WINDOW *editorWin = newwin(WindowSizeY-4-4, WindowSizeX-3, 4, 1);
-	box(editorWin, 0, 0);
-	wrefresh(editorWin);
+	// basically editorWinBorder is a useless window made just so input box
+	// can have borders without overwriting them
+	WINDOW *editorWinBorder = newwin(WindowSizeY-4-4, WindowSizeX-2, 4, 1);
+	box(editorWinBorder, 0, 0);
+	wrefresh(editorWinBorder);
+
+	WINDOW *editorWin = newwin(WindowSizeY-4-6, WindowSizeX-4, 5, 2);
+	string code;
+	while (true) // TODO that's terrible to call update that often
+	{
+		code = wgetch(editorWin);
+		waddstr(editorWin, code.c_str());
+		wrefresh(editorWin);
+	}
+	scrollok(editorWin, false);
 
 	free(tape);
 }
