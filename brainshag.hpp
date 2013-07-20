@@ -21,3 +21,15 @@ public:
 	~Tape();
 };
 
+class Editor
+{
+public:
+	WINDOW *window, *borderWindow;
+	std::string buffer;
+	int bufLines;
+
+	void Update();
+
+	Editor();
+};
+
