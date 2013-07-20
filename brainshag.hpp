@@ -9,6 +9,20 @@ using namespace std;
 
 void loadInterpreter();
 
+class Tape
+{
+public:
+	WINDOW *window;
+	int size;
+	int *data;
+	int dataPointerPos;
+
+	void Update();
+
+	Tape(int newSize);
+	~Tape();
+};
+
 /*
 void simpleBF()
 {
