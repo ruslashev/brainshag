@@ -1,5 +1,5 @@
-#ifndef BRAINSHAG_HPP
-#define BRAINSHAG_HPP
+#ifndef MAIN_HPP
+#define MAIN_HPP
 
 #include <fstream>
 #include <string>
@@ -9,17 +9,5 @@
 // Hello world: 				++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.
 
 void loadInterpreter();
-
-class Editor
-{
-public:
-	WINDOW *window, *borderWindow;
-	std::string buffer;
-	int bufLines;
-
-	void Update();
-
-	Editor();
-};
 
 #endif
