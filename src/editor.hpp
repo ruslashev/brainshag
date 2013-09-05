@@ -7,7 +7,9 @@
 class Editor
 {
 	private:
+		int ScreenSizeX, ScreenSizeY;
 		int WindowSizeX, WindowSizeY;
+		int borderWinSizeX, borderWinSizeY;
 	public:
 		WINDOW *window, *borderWindow;
 		std::string buffer;
@@ -15,7 +17,7 @@ class Editor
 
 		void Update();
 
-		Editor(int &newWindowSizeX, int &newWindowSizeY);
+		Editor(int &newScreenSizeX, int &newScreenSizeY);
 };
 
 #endif

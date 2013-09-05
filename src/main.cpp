@@ -2,7 +2,7 @@
 #include "editor.hpp"
 #include "tape.hpp"
 
-int WindowSizeX, WindowSizeY;
+int ScreenSizeX, ScreenSizeY;
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 	keypad(stdscr, true);
 	cbreak();
 	noecho();
-	getmaxyx(stdscr, WindowSizeY, WindowSizeX);
+	getmaxyx(stdscr, ScreenSizeY, ScreenSizeX);
 
 	// printw("Welcome to Brainshag, a visual brainfuck interpreter!");
 	loadInterpreter();
@@ -25,22 +25,23 @@ void loadInterpreter()
 	Tape tape;
 	tape.Update();
 
-	mvaddstr(WindowSizeY-4, 1, "Input: ");
-	mvaddstr(WindowSizeY-3, 1, "Output: ");
+	mvaddstr(ScreenSizeY-5, 1, "Input: ");
+	mvaddstr(ScreenSizeY-4, 1, "Output: ");
 	refresh();
 
-	Editor editor(WindowSizeX, WindowSizeY);
+	Editor editor(ScreenSizeX, ScreenSizeY);
 	editor.Update();
 
-	char ch;
+	int ch;
 	while (true)
 	{
 		ch = wgetch(editor.window);
 
-		if (ch == 27)
-		{
+		if (ch == KEY_BACKSPACE)
+			editor.buffer.pop_back();
 
-		}
+		if (ch == 27 /* Escape */)
+			break;
 
 		if (ch == 10 /* \n */ || (ch >= 32 && ch <= 126))
 			editor.buffer += ch;

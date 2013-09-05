@@ -1,17 +1,24 @@
 #include "editor.hpp"
 
-Editor::Editor(int &newWindowSizeX, int &newWindowSizeY)
+Editor::Editor(int &newScreenSizeX, int &newScreenSizeY)
 {
-	WindowSizeX = newWindowSizeX;
-	WindowSizeY = newWindowSizeY;
-	// a cosmetic window, used for borders around main editor window
-	borderWindow = newwin(WindowSizeY-4-4, WindowSizeX, 4, 0);
-	box(borderWindow, 0, 0);
-	wrefresh(borderWindow);
+	ScreenSizeX = newScreenSizeX;
+	ScreenSizeY = newScreenSizeY;
 
-	window = newwin(WindowSizeY-4-6, WindowSizeX-4, 5, 5);
-	char ch;
-	std::string buffer;
+	borderWinSizeX = ScreenSizeX;
+	borderWinSizeY = ScreenSizeY-4-5;
+	// a cosmetic window, used for lines (see below) and line numbers
+	borderWindow = newwin(borderWinSizeY, borderWinSizeX, 4, 0);
+	for (int x = 0; x < WindowSizeX; x++) {
+		wmove(borderWindow, 0, x);
+		waddch(borderWindow, ACS_HLINE);
+		wmove(borderWindow, borderWinSizeY-1, x);
+		waddch(borderWindow, ACS_HLINE);
+	}
+
+	WindowSizeX = ScreenSizeX-4;
+	WindowSizeY = ScreenSizeY-4-7;
+	window = newwin(WindowSizeY, WindowSizeX, 5, 4);
 }
 
 void Editor::Update()
@@ -22,10 +29,10 @@ void Editor::Update()
 		if (buffer[i] == '\n')
 			bufLines++;
 
-	for (int i = 0; i < WindowSizeY-4-6; i++)
+	for (int i = 0; i < borderWinSizeY-2; i++)
 	{
-		wmove(borderWindow, 1+i, 0);
-		wattron(borderWindow, A_REVERSE);
+		wmove(borderWindow, i+1, 0);
+		// wattron(borderWindow, A_REVERSE);
 		if (i <= bufLines)
 			wprintw(borderWindow, "%3d ", i+1);
 		else
