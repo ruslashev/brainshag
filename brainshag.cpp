@@ -1,4 +1,5 @@
 #include "brainshag.hpp"
+#include "tape.hpp"
 
 static int WindowSizeX, WindowSizeY;
 
@@ -16,38 +17,6 @@ int main(int argc, char *argv[])
 	endwin();
 	printf("Bye!\n");
 	return 0;
-}
-
-Tape::Tape()
-{
-	size = 1;
-	dataPointer = 0;
-	data = (int*)calloc(size, sizeof(int));
-	if (data == NULL) {
-		endwin();
-		printf("Failed to allocate memory for tape");
-		exit(1);
-	}
-
-	window = newwin(3, size*5+1, 0, 1);
-	// wborder(tapeWin, '|', '|', '-', '-', '+', '+', '+', '+');
-	box(window, 0, 0);
-}
-void Tape::Update()
-{
-	wmove(window, 1, 1);
-	for (int i = 0; i < size; i++)
-		wprintw(window, "%4d|", data[i]);
-
-	mvchgat(3, 0, -1, A_INVIS, 0, NULL); // clear the line
-	mvaddch(3, dataPointer*5+4, '^');
-	refresh();
-
-	wrefresh(window);
-}
-Tape::~Tape()
-{
-	free(data);
 }
 
 Editor::Editor()

@@ -1,3 +1,6 @@
+#ifndef BRAINSHAG_HPP
+#define BRAINSHAG_HPP
+
 #include <fstream>
 #include <string>
 #include <ncurses.h>
@@ -6,20 +9,6 @@
 // Hello world: 				++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.
 
 void loadInterpreter();
-
-class Tape
-{
-public:
-	WINDOW *window;
-	int size;
-	int *data;
-	int dataPointer;
-
-	void Update();
-
-	Tape();
-	~Tape();
-};
 
 class Editor
 {
@@ -33,3 +22,4 @@ public:
 	Editor();
 };
 
+#endif
