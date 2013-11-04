@@ -5,18 +5,9 @@ Editor::Editor(int newScreenSizeX, int newScreenSizeY)
 	ScreenSizeX = newScreenSizeX;
 	ScreenSizeY = newScreenSizeY;
 
-	borderWinSizeX = ScreenSizeX;
-	borderWinSizeY = ScreenSizeY-4-5;
-	borderWin = newwin(borderWinSizeY, borderWinSizeX, 4, 0);
-	// a cosmetic window, used for lines (see below) and line numbers
-	for (int x = 0; x < borderWinSizeX; x++) {
-		mvwaddch(borderWin, 0, x, ACS_HLINE);
-		mvwaddch(borderWin, borderWinSizeY-1, x, ACS_HLINE);
-	}
-
-	WindowSizeX = ScreenSizeX-4;
-	WindowSizeY = ScreenSizeY-4-7;
-	window = newwin(WindowSizeY, WindowSizeX, 5, 4);
+	WindowSizeX = ScreenSizeX;
+	WindowSizeY = ScreenSizeY-4-5;
+	window = newwin(WindowSizeY, WindowSizeX, 4, 0);
 
 	curs.x = curs.y = 0;
 	lines.push_back("\n");
@@ -26,15 +17,21 @@ void Editor::Update()
 {
 	// Note from past self: wrap words at > WindowSizeX - 5
 
+	wclear(window);
+
+	for (int x = 0; x < WindowSizeX; x++) {
+		mvwaddch(window, 0, x, ACS_HLINE);
+		mvwaddch(window, WindowSizeY-1, x, ACS_HLINE);
+	}
+
 	int i = 0;
 	for (; i < lines.size(); i++)
-		mvwprintw(borderWin, i+1, 0, "%3d %s", i+1, lines[i].c_str());
+		mvwprintw(window, i+1, 0, "%3d %s", i+1, lines[i].c_str());
 	for (; i < WindowSizeY; i++)
-		mvwaddstr(borderWin, i+1, 0, "~");
+		mvwaddstr(window, i+1, 0, "~");
 
-	wmove(window, curs.y, curs.x);
+	wmove(window, curs.y+1, curs.x+4);
 
-	wrefresh(borderWin);
 	wrefresh(window);
 }
 

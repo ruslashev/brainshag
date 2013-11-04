@@ -7,9 +7,8 @@ int ScreenSizeX, ScreenSizeY;
 int main(int argc, char *argv[])
 {
 	initscr();
-	keypad(stdscr, true);
 	raw(); // cbreak();
-	keypad(stdscr, TRUE);
+	keypad(stdscr, true);
 	noecho();
 	getmaxyx(stdscr, ScreenSizeY, ScreenSizeX);
 
@@ -36,31 +35,31 @@ void loadInterpreter()
 
 		ch = wgetch(editor.window);
 
-		if (ch == 27) // Escape
-			break;
-
-		if (ch >= 32 && ch <= 126) { // printable
+		if (ch == 'h') {
+			editor.curs.x--;
+		} else if (ch == 'l') {
+			editor.curs.x++;
+		} else if (ch == 'k') {
+			editor.curs.y--;
+		} else if (ch == 'j') {
+			editor.curs.y++;
+		} else if (ch >= 32 && ch <= 126) { // printable
 			editor.lines[editor.curs.y].insert(editor.curs.x, 1, (char)ch);
 			editor.curs.x++;
-		}
-		// } else if (ch == 10) { // \n
-		// 	std::string deleted = editor.lines[editor.curs.y].data.erase(\
-		// 			editor.curs.x, std::string::npos);
-		// 	editor.lines.emplace(\
-		// 			editor.lines.begin()+editor.curs.y+1, \
-		// 			line_t(""));
-		// 	editor.bufLines++;
-		// 	editor.curs.y++;
-		// 	editor.curs.x = 0;
-		// } else if (ch == KEY_LEFT) {
-		// 	editor.curs.x--;
-		// } else if (ch == KEY_RIGHT) {
-		// 	editor.curs.x++;
-		// } else if (ch == KEY_UP) {
-		// 	editor.curs.y--;
-		// } else if (ch == KEY_DOWN) {
-		// 	editor.curs.y++;
-		// }
+		} else if (ch == 10) { // \n
+			std::string head = "", tail = "";
+			int i = 0;
+			for (; i < editor.curs.x; i++)
+				head += editor.lines[editor.curs.y][i];
+			for (; i < editor.lines[editor.curs.y].size(); i++)
+				tail += editor.lines[editor.curs.y][i];
+			editor.lines[editor.curs.y] = head;
+			editor.lines.emplace(editor.lines.begin()+editor.curs.y+1, tail);
+			editor.curs.y++;
+			editor.curs.x = 0;
+			editor.Update();
+		} else if (ch == 27) // Escape
+			break;
 	}
 }
 

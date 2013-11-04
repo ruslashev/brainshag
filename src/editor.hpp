@@ -9,9 +9,8 @@ class Editor
 {
 	int ScreenSizeX, ScreenSizeY;
 	int WindowSizeX, WindowSizeY;
-	int borderWinSizeX, borderWinSizeY;
 public:
-	WINDOW *window, *borderWin;
+	WINDOW *window;
 	std::vector<std::string> lines;
 	struct { unsigned int x, y; } curs;
 
