@@ -8,11 +8,11 @@ int main(int argc, char *argv[])
 {
 	initscr();
 	keypad(stdscr, true);
-	cbreak();
+	raw(); // cbreak();
+	keypad(stdscr, TRUE);
 	noecho();
 	getmaxyx(stdscr, ScreenSizeY, ScreenSizeX);
 
-	// printw("Welcome to Brainshag, a visual brainfuck interpreter!");
 	loadInterpreter();
 
 	endwin();
@@ -37,14 +37,34 @@ void loadInterpreter()
 	{
 		ch = wgetch(editor.window);
 
-		if (ch == KEY_BACKSPACE)
-			editor.buffer.pop_back();
+		// if (ch == KEY_BACKSPACE)
+		// 	editor.buffer.pop_back();
 
-		if (ch == 27 /* Escape */)
+		if (ch == 27 /* Escape */) {
 			break;
+		}
 
-		if (ch == 10 /* \n */ || (ch >= 32 && ch <= 126))
-			editor.buffer += ch;
+		if ((ch >= 32 && ch <= 126)) { // printable chars
+			editor.lines[editor.curs.y].data.insert(editor.curs.x, 1, (char)ch);
+			editor.curs.x++;
+		} else if (ch == 10) { // \n
+			std::string deleted = editor.lines[editor.curs.y].data.erase(\
+					editor.curs.x, std::string::npos);
+			editor.lines.emplace(\
+					editor.lines.begin()+editor.curs.y+1, \
+					line_t(""));
+			editor.bufLines++;
+			editor.curs.y++;
+			editor.curs.x = 0;
+		} else if (ch == KEY_LEFT) {
+			editor.curs.x--;
+		} else if (ch == KEY_RIGHT) {
+			editor.curs.x++;
+		} else if (ch == KEY_UP) {
+			editor.curs.y--;
+		} else if (ch == KEY_DOWN) {
+			editor.curs.y++;
+		}
 
 		tape.Update();
 		editor.Update();
