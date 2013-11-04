@@ -13,6 +13,8 @@ Editor::Editor(int newScreenSizeX, int newScreenSizeY)
 	lines.push_back("");
 
 	mode = NORMAL;
+
+	commandBuf = "";
 }
 
 void Editor::Update(int ch)
@@ -64,6 +66,8 @@ void Editor::Update(int ch)
 					if (curs.y < lines.size()-1)
 						curs.y++;
 					break;
+				case ':':
+					mode = COMMAND;
 				default:
 					break;
 			}
@@ -94,6 +98,20 @@ void Editor::Update(int ch)
 					}
 			}
 			break;
+		case COMMAND:
+			char buf[80];
+			echo();
+			mvwaddch(window, WindowSizeY-2, 1, ch);
+			wgetnstr(window, buf, 80);
+			noecho();
+			commandBuf = ch;
+			commandBuf += buf;
+			if (commandBuf == "quit" || commandBuf == "q") {
+				endwin();
+				exit(0);
+			}
+			mode = NORMAL;
+			break;
 	}
 }
 
@@ -112,10 +130,14 @@ void Editor::Redraw()
 	int i = 0;
 	for (; i < lines.size(); i++)
 		mvwprintw(window, i+1, 0, "%3d %s", i+1, lines[i].c_str());
-	for (; i < WindowSizeY-2; i++)
+	for (; i < WindowSizeY-3; i++)
 		mvwaddstr(window, i+1, 0, "~");
 
-	wmove(window, curs.y+1, curs.x+4);
+	if (mode == COMMAND) {
+		mvwaddch(window, WindowSizeY-2, 0, ':');
+		waddstr(window, commandBuf.c_str());
+	} else
+		wmove(window, curs.y+1, curs.x+4);
 
 	wrefresh(window);
 }

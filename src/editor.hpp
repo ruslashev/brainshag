@@ -13,7 +13,8 @@ public:
 	WINDOW *window;
 	std::vector<std::string> lines;
 	struct { unsigned int x, y; } curs;
-	enum { NORMAL, INSERT } mode;
+	enum { NORMAL, INSERT, COMMAND } mode;
+	std::string commandBuf;
 
 	Editor(int newScreenSizeX, int newScreenSizeY);
 
