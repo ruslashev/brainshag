@@ -14,8 +14,10 @@ Tape::Tape()
 void Tape::Update()
 {
 	wmove(window, 1, 1);
-	for (int i = 0; i < length; i++)
-		wprintw(window, "%03d|", data[i]);
+	for (int i = 0; i < length; i++) {
+		wprintw(window, "%03d", data[i]);
+		waddch(window, ACS_VLINE);
+	}
 
 	mvchgat(3, 0, -1, A_INVIS, 0, NULL); // clear the line
 	mvaddch(3, tapePtr*4+3, '^');

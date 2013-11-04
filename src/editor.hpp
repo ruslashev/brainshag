@@ -13,10 +13,12 @@ public:
 	WINDOW *window;
 	std::vector<std::string> lines;
 	struct { unsigned int x, y; } curs;
+	enum { NORMAL, INSERT } mode;
 
 	Editor(int newScreenSizeX, int newScreenSizeY);
 
-	void Update();
+	void Update(int ch);
+	void Redraw();
 };
 
 #endif
