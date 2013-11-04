@@ -17,12 +17,26 @@ Editor::Editor(int newScreenSizeX, int newScreenSizeY)
 
 void Editor::Update(int ch)
 {
-	// TODO: switch switches
 	switch (mode) {
 		case NORMAL:
 			switch (ch) {
 				case 'i':
 					mode = INSERT;
+					break;
+				case 'x':
+					if (curs.x < lines[curs.y].size())
+						lines[curs.y].replace(curs.x, lines[curs.y].size()-curs.x,
+								lines[curs.y], curs.x+1, lines[curs.y].size()-curs.x-1);
+					break;
+				case 'X':
+					if (curs.x < lines[curs.y].size() && curs.x != 0) {
+						lines[curs.y].replace(curs.x-1, lines[curs.y].size()-curs.x,
+								lines[curs.y], curs.x, lines[curs.y].size()-curs.x-1);
+						curs.x--;
+					} else if (curs.x == lines[curs.y].size() && curs.x != 0) {
+						lines[curs.y].pop_back();
+						curs.x--;
+					}
 					break;
 				case 'o':
 					lines.emplace(lines.begin()+curs.y+1, "");
@@ -35,16 +49,20 @@ void Editor::Update(int ch)
 					curs.x = 0;
 					break;
 				case 'h':
-					curs.x--;
+					if (curs.x > 0)
+						curs.x--;
 					break;
 				case 'l':
-					curs.x++;
+					if (curs.x < lines[curs.y].size())
+						curs.x++;
 					break;
 				case 'k':
-					curs.y--;
+					if (curs.y > 0)
+						curs.y--;
 					break;
 				case 'j':
-					curs.y++;
+					if (curs.y < lines.size()-1)
+						curs.y++;
 					break;
 				default:
 					break;
