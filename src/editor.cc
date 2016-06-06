@@ -1,4 +1,4 @@
-#include "editor.hpp"
+#include "editor.hh"
 
 Editor::Editor(int newScreenSizeX, int newScreenSizeY)
 {

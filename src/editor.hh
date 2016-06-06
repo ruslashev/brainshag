@@ -1,5 +1,4 @@
-#ifndef EDITOR_HPP
-#define EDITOR_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -22,4 +21,3 @@ public:
 	void Redraw();
 };
 
-#endif

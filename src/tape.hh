@@ -1,5 +1,4 @@
-#ifndef TAPE_HPP
-#define TAPE_HPP
+#pragma once
 
 #include <ncurses.h>
 #include <cstdlib>
@@ -18,4 +17,3 @@ public:
 	void Update();
 };
 
-#endif

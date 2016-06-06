@@ -1,8 +1,8 @@
-#include "main.hpp"
-#include "editor.hpp"
-#include "tape.hpp"
+#include "editor.hh"
+#include "tape.hh"
 
 int ScreenSizeX, ScreenSizeY;
+void loadInterpreter();
 
 int main(int argc, char *argv[])
 {
