@@ -109,6 +109,8 @@ void Editor::Update(int ch)
 			if (commandBuf == "quit" || commandBuf == "q") {
 				endwin();
 				exit(0);
+			} else if (commandBuf == "compile" || commandBuf == "co") {
+
 			}
 			mode = NORMAL;
 			break;
