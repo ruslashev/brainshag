@@ -1,6 +1,6 @@
 OBJS = .objs/.editor.o .objs/.main.o .objs/.tape.o
 CXX = g++
-CXXFLAGS = -Wall -Wextra -Wpedantic -g -std=c++0x
+CXXFLAGS = -Wall -Wextra -Wpedantic -Wshadow -g -std=c++0x
 LDFLAGS = -lncurses
 EXECNAME = brainshag
 
